@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento Confirmado — Lapay Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --success: #10B981;
+      --brand: #7C3AED;
+      --brand-light: #A855F7;
+      --accent: #06B6D4;
+      --bg: #0A0A0F;
+      --bg-card: #13131A;
+      --border: rgba(16,185,129,0.2);
+      --text: #F0F0FF;
+      --muted: #8B8BA7;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(16,185,129,0.12) 0%, transparent 60%), var(--bg);
+    }
+
+    .container {
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .icon-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(16,185,129,0.12);
+      border: 2px solid rgba(16,185,129,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 28px;
+      animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .receipt {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: left;
+      margin-bottom: 32px;
+    }
+
+    .receipt-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--success);
+      margin-bottom: 16px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 14px;
+    }
+    .receipt-row:last-child { border-bottom: none; }
+
+    .receipt-row .label { color: var(--muted); }
+    .receipt-row .value { font-weight: 600; }
+
+    .items-list {
+      margin: 12px 0;
+    }
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .item-row:last-child { border-bottom: none; }
+
+    .btn-home {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--brand), var(--brand-light));
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .btn-home:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, #1C1C28 25%, #252535 50%, #1C1C28 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 6px;
+      height: 16px;
+      width: 80%;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="icon-wrap">✅</div>
+  <h1>Pagamento Confirmado!</h1>
+  <p class="subtitle" id="subtitle">Seu pedido foi processado com sucesso.<br />Verifique seu e-mail para os detalhes.</p>
+
+  <div class="receipt" id="receipt">
+    <div class="receipt-title">Resumo do pedido</div>
+    <div class="receipt-row">
+      <span class="label">Status</span>
+      <span class="value" style="color: #10B981;" id="status">Carregando...</span>
+    </div>
+    <div class="receipt-row">
+      <span class="label">E-mail</span>
+      <span class="value" id="email"><span class="skeleton"></span></span>
+    </div>
+    <div class="receipt-row">
+      <span class="label">Total pago</span>
+      <span class="value" id="total"><span class="skeleton"></span></span>
+    </div>
+    <div id="items-section" style="display:none;">
+      <div style="font-size:12px; color: var(--muted); padding: 12px 0 4px; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Itens</div>
+      <div class="items-list" id="items-list"></div>
+    </div>
+  </div>
+
+  <a href="/" class="btn-home">Voltar para a loja</a>
+  <p class="note">Ingresso e recibo enviados para seu e-mail.<br />Dúvidas? <a href="mailto:contato@lapaydigital.com" style="color:#A855F7;">contato@lapaydigital.com</a></p>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+
+  async function loadSession() {
+    if (!sessionId) return;
+    try {
+      const res = await fetch(`/session-details?id=${sessionId}`);
+      if (!res.ok) return;
+      const s = await res.json();
+
+      document.getElementById('status').textContent = s.payment_status === 'paid' ? 'Pago' : s.payment_status;
+      document.getElementById('email').textContent = s.customer_email || '—';
+
+      const total = s.amount_total ? `R$ ${(s.amount_total / 100).toFixed(2).replace('.', ',')}` : '—';
+      document.getElementById('total').textContent = total;
+
+      if (s.customer_name) {
+        document.getElementById('subtitle').innerHTML =
+          `Obrigado, <strong>${s.customer_name}</strong>! Seu ingresso foi enviado para <strong>${s.customer_email}</strong>.`;
+      }
+
+      if (s.line_items && s.line_items.length > 0) {
+        const section = document.getElementById('items-section');
+        const list = document.getElementById('items-list');
+        section.style.display = 'block';
+        list.innerHTML = s.line_items.map(item => `
+          <div class="item-row">
+            <span>${item.description} x${item.quantity}</span>
+            <span>R$ ${(item.amount_total / 100).toFixed(2).replace('.', ',')}</span>
+          </div>
+        `).join('');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  loadSession();
+</script>
+</body>
+</html>

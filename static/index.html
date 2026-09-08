@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapay Digital — Loja</title>
+  <meta name="description" content="Compre ingressos e produtos Lapay Digital com segurança via Stripe." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand: #7C3AED;
+      --brand-light: #A855F7;
+      --brand-dark: #5B21B6;
+      --accent: #06B6D4;
+      --success: #10B981;
+      --danger: #EF4444;
+      --bg: #0A0A0F;
+      --bg-card: #13131A;
+      --bg-card2: #1C1C28;
+      --border: rgba(124,58,237,0.18);
+      --text: #F0F0FF;
+      --muted: #8B8BA7;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ---- Hero / Header ---- */
+    header {
+      background: linear-gradient(135deg, #0A0A0F 0%, #1a0a2e 50%, #0A0A0F 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--brand-light), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .badge-test {
+      background: rgba(251,191,36,0.15);
+      border: 1px solid rgba(251,191,36,0.4);
+      color: #FBB724;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ---- Hero Section ---- */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.25) 0%, transparent 60%);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.35);
+      color: var(--brand-light);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--brand-light), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    /* ---- Products Grid ---- */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brand-light);
+      margin-bottom: 28px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(124,58,237,0.2);
+      border-color: rgba(124,58,237,0.45);
+    }
+
+    .card-banner {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--bg-card));
+    }
+
+    .banner-event { background: linear-gradient(135deg, #1e0a3c, #3b1278); }
+    .banner-show  { background: linear-gradient(135deg, #0a1e3c, #124578); }
+    .banner-prod  { background: linear-gradient(135deg, #0a2a1e, #126b45); }
+
+    .card-body { padding: 20px 24px 24px; }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .tag-event { background: rgba(168,85,247,0.15); color: #C084FC; }
+    .tag-show  { background: rgba(6,182,212,0.15);  color: #22D3EE; }
+    .tag-prod  { background: rgba(16,185,129,0.15); color: #34D399; }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .price {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .price small {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .btn-buy {
+      background: linear-gradient(135deg, var(--brand), var(--brand-light));
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-buy::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.2s;
+    }
+
+    .btn-buy:hover::before { background: rgba(255,255,255,0.1); }
+    .btn-buy:active { transform: scale(0.97); }
+
+    .btn-buy.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---- Payment badges ---- */
+    .payment-badges {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .payment-badges span {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .payment-badges .pix { color: #32BCAD; border-color: rgba(50,188,173,0.3); background: rgba(50,188,173,0.07); }
+
+    /* ---- Error toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1C1C28;
+      border: 1px solid rgba(239,68,68,0.4);
+      color: #FCA5A5;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      z-index: 999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--brand-light); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Lapay Digital</div>
+  <span class="badge-test">MODO TESTE</span>
+</header>
+
+<div class="hero">
+  <div class="hero-tag">Compra 100% Segura</div>
+  <h1>Ingressos & Produtos<br /><span>com PIX instantâneo</span></h1>
+  <p>Pague com PIX, cartão de crédito ou débito. Confirmação imediata. Seus ingressos chegam por e-mail.</p>
+</div>
+
+<div class="section">
+  <div class="section-title">Disponíveis agora</div>
+  <div class="products-grid" id="products-grid">
+    <!-- Cards inseridos via JS abaixo -->
+  </div>
+
+  <div class="payment-badges">
+    <span class="pix">PIX</span>
+    <span>Cartão de Crédito</span>
+    <span>Parcelado em até 12x</span>
+    <span>🔒 Stripe (PCI DSS Level 1)</span>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Lapay Digital &mdash; Pagamentos processados por <a href="https://stripe.com" target="_blank">Stripe</a>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // -----------------------------------------------------------------------
+  // Produtos de demonstracao — substitua pelos seus price IDs reais do Stripe
+  // Crie os produtos no Dashboard: https://dashboard.stripe.com/test/products
+  // -----------------------------------------------------------------------
+  const PRODUCTS = [
+    {
+      id: 'SUBSTITUA_PELO_SEU_PRICE_ID_1',
+      title: 'Show de Verão 2025',
+      description: 'Ingresso pista — Acesso ao evento em 15 de janeiro. Portões abrem às 19h.',
+      price: 'R$ 150,00',
+      type: 'event',
+      emoji: '🎤',
+    },
+    {
+      id: 'SUBSTITUA_PELO_SEU_PRICE_ID_2',
+      title: 'Workshop de Fotografia',
+      description: 'Inscrição para o workshop presencial. Inclui material didático e certificado.',
+      price: 'R$ 299,00',
+      type: 'event',
+      emoji: '📷',
+    },
+    {
+      id: 'SUBSTITUA_PELO_SEU_PRICE_ID_3',
+      title: 'Festival de Música',
+      description: 'Ingresso VIP — Área exclusiva, open bar e acesso ao backstage.',
+      price: 'R$ 450,00',
+      type: 'show',
+      emoji: '🎵',
+    },
+  ];
+
+  function renderProducts() {
+    const grid = document.getElementById('products-grid');
+    grid.innerHTML = PRODUCTS.map(p => `
+      <div class="product-card">
+        <div class="card-banner banner-${p.type === 'show' ? 'show' : p.type === 'prod' ? 'prod' : 'event'}">
+          <span>${p.emoji}</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag tag-${p.type === 'show' ? 'show' : p.type === 'prod' ? 'prod' : 'event'}">
+            ${p.type === 'event' ? 'Evento' : p.type === 'show' ? 'Show' : 'Produto'}
+          </span>
+          <div class="card-title">${p.title}</div>
+          <div class="card-desc">${p.description}</div>
+          <div class="card-footer">
+            <div class="price"><small>por </small>${p.price}</div>
+            <button
+              class="btn-buy"
+              id="btn-${p.id}"
+              onclick="handleCheckout('${p.id}', this)"
+            >
+              Comprar agora
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function handleCheckout(priceId, btn) {
+    if (priceId.startsWith('SUBSTITUA')) {
+      showToast('Configure seu Price ID no arquivo static/index.html antes de testar!');
+      return;
+    }
+
+    btn.classList.add('loading');
+    btn.innerHTML = '<span class="spinner"></span> Aguarde...';
+
+    try {
+      const res = await fetch('/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ price_id: priceId, quantity: 1 }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || 'Erro ao criar sessão de pagamento.');
+      }
+
+      const { url } = await res.json();
+      window.location.href = url;
+
+    } catch (err) {
+      showToast(err.message);
+      btn.classList.remove('loading');
+      btn.innerHTML = 'Comprar agora';
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  renderProducts();
+</script>
+</body>
+</html>
