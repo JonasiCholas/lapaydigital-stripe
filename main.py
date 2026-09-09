@@ -19,7 +19,16 @@ from typing import Optional
 # Config
 # ---------------------------------------------------------------------------
 
-load_dotenv()
+# Clear old environment variables to force reload from .env
+if "STRIPE_SECRET_KEY" in os.environ:
+    del os.environ["STRIPE_SECRET_KEY"]
+if "STRIPE_PUBLISHABLE_KEY" in os.environ:
+    del os.environ["STRIPE_PUBLISHABLE_KEY"]
+if "STRIPE_WEBHOOK_SECRET" in os.environ:
+    del os.environ["STRIPE_WEBHOOK_SECRET"]
+
+# Force reload from .env file
+load_dotenv(override=True)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("lapaydigital")
