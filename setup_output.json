@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Ingresso — Show de Verao 2025",
+    "product_id": "prod_VEH5SLL76bigf2",
+    "price_id": "price_1UDoXVRSZgxEHq038Lmg9Drf",
+    "amount": 15000
+  },
+  {
+    "name": "Workshop de Fotografia",
+    "product_id": "prod_VEH5lf5YiJcV6G",
+    "price_id": "price_1UDoXWRSZgxEHq03z8iDrTAR",
+    "amount": 29900
+  },
+  {
+    "name": "Festival de Musica — VIP",
+    "product_id": "prod_VEH5xCDRSPxnfR",
+    "price_id": "price_1UDoXWRSZgxEHq033619nkTx",
+    "amount": 45000
+  }
+]

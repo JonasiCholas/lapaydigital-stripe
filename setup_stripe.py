@@ -15,9 +15,9 @@ print("=" * 60)
 print("\n[1] Verificando conta Stripe...")
 account = stripe.Account.retrieve()
 print(f"    Conta: {account.id}")
-print(f"    Email: {account.get('email', 'N/A')}")
-print(f"    País: {account.get('country', 'N/A')}")
-print(f"    Moeda padrão: {account.get('default_currency', 'N/A')}")
+print(f"    Email: {account.email if hasattr(account, 'email') else 'N/A'}")
+print(f"    País: {account.country if hasattr(account, 'country') else 'N/A'}")
+print(f"    Moeda padrão: {account.default_currency if hasattr(account, 'default_currency') else 'N/A'}")
 
 # 2. Verificar metodos de pagamento existentes
 print("\n[2] Verificando Payment Method Configurations...")
